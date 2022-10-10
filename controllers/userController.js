@@ -39,8 +39,8 @@ const userController = {
   },
   updateUser({ params, body }, res) {
     User.findOneAndUpdate({ _id: params.userId }, body, {
-      new: true,
       runValidators: true,
+      new: true,
     })
       .then((user) => {
         if (!user) {
@@ -78,9 +78,9 @@ const userController = {
       .catch((err) => res.status(500).json(err));
   },
   deleteFriend({ params }, res) {
-    console.log('params', params);
+    console.log("params", params);
     const friendId = Types.ObjectId(params.friendId);
-    console.log('friendId', friendId);
+    console.log("friendId", friendId);
     User.findOneAndUpdate(
       { _id: params.userId },
       { $pull: { friends: friendId } },
