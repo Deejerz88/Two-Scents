@@ -1,0 +1,16 @@
+{
+  "name": "two-scents",
+  "version": "1.0.0",
+  "description": "Tell us what you think and we'll tell you how it smells",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index",
+    "seed": "node utils/seed"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.6.5"
+  }
+}
