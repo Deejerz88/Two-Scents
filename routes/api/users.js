@@ -1,36 +1,32 @@
 import express from "express";
+import userController from "../../controllers/userController.js";
+
+const {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  addFriend,
+  deleteFriend,
+} = userController;
 
 const router = express.Router();
 
 router
   .route("/")
-  .get((req, res) => {
-    //get all users
-  })
-  .post((req, res) => {
-    //create user
-  });
+  .get((req, res) => getUsers(req, res))
+  .post((req, res) => createUser(req, res));
 
 router
   .route("/:userId")
-  .get((req, res) => {
-    // get one user by id
-  })
-  .put((req, res) => {
-    // update user by id
-  })
-  .delete((req, res) => {
-    // delete user
-  });
-
+  .get((req, res) => getUserById(req, res))
+  .put((req, res) => updateUser(req, res))
+  .delete((req, res) => deleteUser(req, res));
 
 router
   .route("/:userId/friends/:friendId")
-  .post((req, res) => {
-    // add a new friend to a user's friend list
-  })
-  .delete((req, res) => {
-    // delete a friend from a user's friend list
-  });
+  .post((req, res) => addFriend(req, res))
+  .delete((req, res) => deleteFriend(req, res));
 
 export default router;

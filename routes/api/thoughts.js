@@ -30,3 +30,5 @@ router
   .delete((req, res) => {
     // delete reaction
   });
+
+export default router;
