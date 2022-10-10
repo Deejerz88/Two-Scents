@@ -2,13 +2,10 @@ import { Thought, User } from "../models/index.js";
 
 const thoughtController = {
   getThoughts(req, res) {
+    console.log("getThoughts");
     Thought.find({})
-      .populate({
-        path: "reactions",
-        select: "-__v",
-      })
+      .populate("reactions")
       .select("-__v")
-      .sort({ _id: -1 })
       .then((thoughts) => res.json(thoughts))
       .catch((err) => {
         console.log(err);
@@ -100,7 +97,7 @@ const thoughtController = {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
       { $pull: { reactions: { reactionId: params.reactionId } } },
-      { new: true }
+      { new: true, runValidators: true }
     )
       .then((thought) => {
         !thought
@@ -108,5 +105,7 @@ const thoughtController = {
           : res.json(thought);
       })
       .catch((err) => res.status(500).json(err));
-  }
+  },
 };
+
+export default thoughtController;

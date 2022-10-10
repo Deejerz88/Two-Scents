@@ -25,7 +25,14 @@ const UserSchema = new Schema({
       ref: "User",
     },
   ],
-});
+},
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
+  }
+);
 
 UserSchema.virtual("thoughtCount").get(function () {
   return this.thoughts.length;
