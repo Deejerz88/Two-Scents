@@ -1,10 +1,12 @@
 import { User, Thought } from "../models/index.js";
+import { Types } from "mongoose";
 
 const userController = {
   getUsers(req, res) {
     console.log("getUsers");
     User.find({})
       .populate("thoughts")
+      .populate("friends")
       .select("-__v")
       .then((users) => res.json(users))
       .catch((err) => {
@@ -14,10 +16,8 @@ const userController = {
   },
   getUserById({ params }, res) {
     User.findOne({ _id: params.userId })
-      .populate({
-        path: "thoughts",
-        select: "-__v",
-      })
+      .populate("thoughts")
+      .populate("friends")
       .select("-__v")
       .then((user) => {
         if (!user) {
@@ -32,7 +32,7 @@ const userController = {
       });
   },
   createUser({ body }, res) {
-    console.log('body', body);
+    console.log("body", body);
     User.create(body)
       .then((user) => res.json(user))
       .catch((err) => res.status(400).json(err));
@@ -62,10 +62,11 @@ const userController = {
       .catch((err) => res.status(500).json(err));
   },
   addFriend({ params }, res) {
+    const friendId = Types.ObjectId(params.friendId);
     User.findOneAndUpdate(
       { _id: params.userId },
-      { $addToSet: { friends: params.friendId } },
-      { new: true }
+      { $addToSet: { friends: friendId } },
+      { new: true, runValidators: true }
     )
       .then((user) => {
         if (!user) {
@@ -77,10 +78,13 @@ const userController = {
       .catch((err) => res.status(500).json(err));
   },
   deleteFriend({ params }, res) {
+    console.log('params', params);
+    const friendId = Types.ObjectId(params.friendId);
+    console.log('friendId', friendId);
     User.findOneAndUpdate(
       { _id: params.userId },
-      { $pull: { friends: params.friendId } },
-      { new: true }
+      { $pull: { friends: friendId } },
+      { new: true, runValidators: true }
     )
       .then((user) => {
         if (!user) {
