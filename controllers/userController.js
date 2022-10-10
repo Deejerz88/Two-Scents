@@ -77,7 +77,7 @@ const userController = {
       })
       .catch((err) => res.status(500).json(err));
   },
-  deleteFriend({ params }, res) {
+  removeFriend({ params }, res) {
     console.log("params", params);
     const friendId = Types.ObjectId(params.friendId);
     console.log("friendId", friendId);

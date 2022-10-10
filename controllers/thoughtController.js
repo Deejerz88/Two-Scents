@@ -1,5 +1,4 @@
 import { Thought, User } from "../models/index.js";
-import { Types } from "mongoose";
 
 const thoughtController = {
   getThoughts(req, res) {

@@ -1,5 +1,5 @@
 import express from "express";
-import userController from "../../controllers/userController.js";
+import { userController } from "../../controllers/index.js";
 
 const {
   getUsers,
@@ -8,7 +8,7 @@ const {
   updateUser,
   deleteUser,
   addFriend,
-  deleteFriend,
+  removeFriend,
 } = userController;
 
 const router = express.Router();
@@ -27,6 +27,6 @@ router
 router
   .route("/:userId/friends/:friendId")
   .post((req, res) => addFriend(req, res))
-  .delete((req, res) => deleteFriend(req, res));
+  .delete((req, res) => removeFriend(req, res));
 
 export default router;
